@@ -4,21 +4,8 @@ let oldDiceInt;
 let exerciseOptions = [];
 let dataLength;
 
-// Fetch exercises from data.json
-async function getExercises() {
-    try {
-        const response = await fetch('./data.json');
-        const data = await response.json();
-        exerciseOptions = data;
-    } catch (error) {
-        console.error('Error fetching exercises:', error);
-    }
-}
-
-// Load menu and apply dark mode settings on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
     loadMenu();
-    applyDarkModeSettings();
 });
 
 // Load menu from menu.html and sanitize the content
@@ -89,4 +76,48 @@ function writeToNode(text) {
 function reset() {
     document.getElementById("inputText").value = "";
     document.getElementById("chunks").innerHTML = "";
+}
+
+function convertToSQL() {
+    const delimiterMap = {
+        'comma': ',',
+        'tab': '\t',
+        'space': ' ',
+        'pipe': '|',
+        'semicolon': ';',
+        'colon': ':'
+    };
+
+    const selectedDelimiter = document.getElementById('delimiter').value;
+    const delimiter = delimiterMap[selectedDelimiter] || selectedDelimiter;
+
+    const inputText = document.getElementById('inputText').value;
+    const database = document.getElementById('database').value;
+    const table = document.getElementById('table').value;
+
+    const rows = inputText.split('\n');
+    const columns = rows[0].split(delimiter);
+    let sqlOutput = `INSERT INTO ${database}.${table} (${columns.join(', ')}) VALUES\n`;
+
+    for (let i = 1; i < rows.length; i++) {
+        const values = rows[i].split(delimiter).map(value => `'${value}'`);
+        if (values.length > 1) {
+            sqlOutput += `(${values.join(', ')}),\n`;
+        }
+    }
+
+    sqlOutput = sqlOutput.slice(0, -2) + ';';
+    document.getElementById('outputText').value = sqlOutput;
+}
+
+function copySQL(event) {
+    try {
+        const textToCopy = outputText.value;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+        }).catch(err => {
+            console.error('Could not copy text:', err);
+        });
+    } catch (error) {
+        console.error('Error copying text:', error);
+    }
 }
