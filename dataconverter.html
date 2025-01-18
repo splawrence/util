@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>util</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+</head>
+
+<body>
+    <div id="menu"></div>
+    <div class="container text-center">
+        <p id="warmUp" class="m-2" aria-live="polite"></p>
+        <select id="delimiter" class="form-control form-control-lg mb-3">
+            <option value="\t">Tab</option>
+            <option value=",">Comma</option>
+            <option value=";">Semicolon</option>
+            <option value="|">Pipe</option>
+            <option value="^">Caret</option>
+            <option value="~">Tilde</option>
+            <option value=":">Colon</option>
+            <option value=" ">Space</option>
+        </select>
+        <input type="text" id="database" class="form-control" placeholder="database" rows="5" cols="50">
+        <input type="text" id="table" class="form-control" placeholder="table" rows="5" cols="50">
+
+        <button id="convertToSQL" class="btn btn-primary btn-lg btn-fixed-bottom text-nowrap" onclick="convertToSQL()">Convert to SQL</button>
+
+        <div class="d-flex justify-content-center">
+            <div class="m-5">
+                <textarea id="inputText" class="form-control" placeholder="Paste delimited SQL table data here..." rows="20" cols="100"></textarea>
+            </div>
+            <div id="sqlOutput" class="m-5">
+                <textarea id="outputText" class="form-control" placeholder="SQL insert formatted text will appear here..." rows="20" cols="100"></textarea>
+            </div>
+        </div>
+
+        <script src="./static.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js"></script>
+        <script>
+            function convertToSQL() {
+                const delimiter = document.getElementById('delimiter').value;
+                const inputText = document.getElementById('inputText').value;
+                const database = document.getElementById('database').value;
+                const table = document.getElementById('table').value;
+
+                const rows = inputText.split('\n');
+                const columns = rows[0].split(delimiter);
+                let sqlOutput = `INSERT INTO ` + database + "." +  table + ` (${columns.join(', ')}) VALUES\n`;
+
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i].split(delimiter).map(value => `'${value}'`);
+                    sqlOutput += `(${values.join(', ')}),\n`;
+                }
+
+                sqlOutput = sqlOutput.slice(0, -2) + ';';
+                document.getElementById('outputText').value = sqlOutput;
+            }
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>util</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div id="menu"></div>
+    <div class="container text-center">
+        <textarea id="prefix" class="form-control" placeholder="prefix" rows="5" cols="50"></textarea>
+        <p id="warmUp" class="m-2" aria-live="polite"></p>
+
+        <div class="d-flex justify-content-center m-2 btn-fixed-bottom text-nowrap">
+            <button id="split" class="btn btn-primary btn-lg text-nowrap mx-2" onclick="spit()">Split</button>
+            <button id="reset" class="btn btn-primary btn-lg text-nowrap mx-2" onclick="reset()">Reset</button>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="m-2" style="flex: 1;">
+                <textarea id="inputText" class="form-control" placeholder="Paste something long here..." rows="25"
+                    cols="100"></textarea>
+            </div>
+            <div id="chunks" class="m-2" style="flex: 1;">
+                <!-- You can add content here if needed -->
+            </div>
+        </div>
+
+        <script src="./static.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js"></script>
+        <script>
+            document.getElementById('prefix').value = "More data coming... Here is the next chunk. Do not respond until you receive further instructions. \n";
+        </script>
+    </div>
+</body>
+
+</html>
