@@ -16,6 +16,11 @@
     <div id="menu"></div>
     <div class="container text-center">
         <p id="warmUp" class="m-2" aria-live="polite"></p>
+        <select id="selTool" class="form-control form-control-lg mb-3" onchange="toggleFields()">
+            <option value="insert">Insert</option>
+            <option value="in">In</option>
+        </select>
+
         <select id="delimiter" class="form-control form-control-lg mb-3">
             <option value="comma">Comma</option>
             <option value="tab">Tab</option>
@@ -29,7 +34,7 @@
 
 
         <div class="d-flex justify-content-center m-2 btn-fixed-bottom text-nowrap">
-            <button id="convertToSQL"  class="btn btn-primary btn-lg text-nowrap mx-2" onclick="convertToSQL()">Convert to SQL</button>
+            <button id="convertToSQL"  class="btn btn-primary btn-lg text-nowrap mx-2" onclick="transform()">Convert to SQL</button>
             <button id="copySQL" class="btn btn-primary btn-lg text-nowrap mx-2" onclick="copySQL()"><i class="fas fa-copy"></i></button>
         </div>
 

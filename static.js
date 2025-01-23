@@ -78,6 +78,35 @@ function reset() {
     document.getElementById("chunks").innerHTML = "";
 }
 
+function transform() {
+    const toolMap = {
+        'insert': convertToSQL,
+        'in': convertToInSQL,
+    };
+    const tool = document.getElementById('selTool').value;
+    if (toolMap.hasOwnProperty(tool)) {
+        toolMap[tool]();
+    } else {
+        console.error('Invalid tool selected');
+    }
+}
+
+function convertToInSQL() {
+
+    // const selectedDelimiter = document.getElementById('delimiter').value;
+    // const delimiter = delimiterMap[selectedDelimiter] || selectedDelimiter;
+
+    const inputText = document.getElementById('inputText').value;
+    // const database = document.getElementById('database').value;
+    // const table = document.getElementById('table').value;
+
+    const rows = inputText.split('\n');
+    // const columns = rows[0].split(delimiter);
+    let sqlOutput = `(${rows.map(row => `'${row.trim()}'`).join(', ')})`;
+
+    document.getElementById('outputText').value = sqlOutput;
+}
+
 function convertToSQL() {
     const delimiterMap = {
         'comma': ',',
@@ -119,5 +148,22 @@ function copySQL(event) {
         });
     } catch (error) {
         console.error('Error copying text:', error);
+    }
+}
+
+function toggleFields() {
+    const selTool = document.getElementById('selTool').value;
+    const database = document.getElementById('database');
+    const delimiter = document.getElementById('delimiter');
+    const table = document.getElementById('table');
+
+    if (selTool === 'in') {
+        database.style.display = 'none';
+        delimiter.style.display = 'none';
+        table.style.display = 'none';
+    } else {
+        database.style.display = 'block';
+        delimiter.style.display = 'block';
+        table.style.display = 'block';
     }
 }
